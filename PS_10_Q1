@@ -1,1 +1,100 @@
+from Graph import Graph
+
+
+# Kruskal's algorithm
+# Output a list of edges of an MST
+# Each edge indicated as (u,v,w) where u and v are the vertices,
+# w is the weight of the edge
+
+
+#disjoint set:
+    
+#n = G.n
+#parent =  [i for i in range(0,n)]
+
+def find(i):
+    print("find")
+    print(len(parent), i)
+    if parent[i]==i:
+        return i
+    else:
+        return find(parent[i])
+def union(i,j):
+    irep = find(i)
+    jrep = find(j)
+    parent[irep]=jrep
+
+def MSTKruskal(G):
+    n = G.n
+    A = []
+    B = []
+    parent =  [i for i in range(0,n)]
+    # form list of edge representaed in triple:
+    E = []
+    for u in G.V:
+        for v, w in G.Adj[u.id]:
+            if (v,u,w) in E:
+                continue
+            t = u,v,w
+            E.append(t)
+            print(u.id,v.id,w)
+    #sort the edges of G:E into nondecreasing order by weight w
+    E.sort(key=lambda x:x[2] )
+    for u,v,w in E:
+        if find(u.id)!=find(v.id):
+            print(u.id,v.id)
+            A.append((u,v,w))
+
+    return A
+
+
+
+
+
+    
+if __name__ == '__main__':
+
+    # Example graph from CLRS and Lecture
+    G = Graph()
+    v0 = G.add_node()
+    v1 = G.add_node()
+    v2 = G.add_node()
+    v3 = G.add_node()
+    v4 = G.add_node()
+    v5 = G.add_node()
+    v6 = G.add_node()
+    v7 = G.add_node() 
+    v8 = G.add_node() 
+
+    G.add_weighted_edge(v0,v1,4)
+    G.add_weighted_edge(v0,v7,8)
+    G.add_weighted_edge(v1,v2,8)
+    G.add_weighted_edge(v1,v7,11)
+    G.add_weighted_edge(v2,v3,7)
+    G.add_weighted_edge(v2,v5,4)
+    G.add_weighted_edge(v2,v8,2)
+    G.add_weighted_edge(v3,v4,9)
+    G.add_weighted_edge(v3,v5,14)
+    G.add_weighted_edge(v4,v5,10)
+    G.add_weighted_edge(v5,v6,2)
+    G.add_weighted_edge(v6,v7,1)
+    G.add_weighted_edge(v6,v8,6)
+
+    # Print graph
+    print("Example graph:")
+    #G.display()
+
+    # Run Kruskal's algorithm
+    # Output a list of edges of an MST
+    # Each edge (u,v,w) where u and v are the vertices,
+    # w is the weight of the edge
+    T = MSTKruskal(G)
+    
+    print("")
+    
+    # Print the spanning tree
+    print("The edges of the MST found by Kruskal's algorithm:")
+    for u,v,w in T:
+        print('(',u.id,',',v.id,'), weight: ',w)
+
 
